@@ -17,11 +17,23 @@ class Knight
     graph
   end
 
-  def print_graph
-    @graph
+  def moves(initial_position, final_position)
+    queue = [[initial_position]]
+    visited = Set.new([initial_position])
+    until queue.empty?
+      path = queue.shift
+      position = path.last
+
+      break if position == final_position
+
+      @graph[position[0]][position[1]].each do |next_pos|
+        unless visited.include?(next_pos)
+          visited.add(next_pos)
+          queue.push(path + [next_pos])
+        end
+      end
+    end
+    puts "Knight moved in #{path.size} turns, the path :"
+    path.each { |element| p element }
   end
 end
-
-graph = Graph.new
-
-p graph.print_graph[2][3]
